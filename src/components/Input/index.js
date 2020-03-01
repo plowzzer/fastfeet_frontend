@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useField } from '@unform/core';
 
-import { LabelStyled, InputStyled, ErrorStyled } from './styles';
+import { LabelStyled, Container, InputStyled, ErrorStyled } from './styles';
 
-export default function Input({ name, label, ...rest }) {
+export default function Input({ name, label, icon, ...rest }) {
 	const inputRef = useRef(null);
 
 	const { fieldName, defaultValue = '', registerField, error } = useField(name);
@@ -19,13 +20,28 @@ export default function Input({ name, label, ...rest }) {
 	return (
 		<>
 			{label && <LabelStyled htmlFor={fieldName}>{label}</LabelStyled>}
-			<InputStyled
-				ref={inputRef}
-				id={fieldName}
-				defaultValue={defaultValue}
-				{...rest}
-			/>
+			<Container icon={icon}>
+				{icon}
+				<InputStyled
+					ref={inputRef}
+					id={fieldName}
+					defaultValue={defaultValue}
+					{...rest}
+				/>
+			</Container>
 			{error && <ErrorStyled>{error}</ErrorStyled>}
 		</>
 	);
 }
+
+Input.defaultProps = {
+	name: '',
+	label: '',
+	icon: '',
+};
+
+Input.propTypes = {
+	name: PropTypes.string,
+	label: PropTypes.string,
+	icon: PropTypes.string,
+};

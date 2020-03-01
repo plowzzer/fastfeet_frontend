@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  height: 100%;
-  background: linear-gradient(-135deg, #7159c1, #ab59c1);
+	height: 100%;
+	background: #f5f5f5;
+`;
+
+export const Container = styled.div`
+	max-width: 1200px;
+	margin: 20px auto;
 `;

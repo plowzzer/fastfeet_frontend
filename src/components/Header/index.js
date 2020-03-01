@@ -1,31 +1,44 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-import logo from '~/assets/logo.svg';
+import { signOut } from '~/store/modules/auth/actions';
 
+import logo from '~/assets/logo.png';
 import { Container, Content, Profile } from './styles';
 
 export default function Header() {
-	// const profile = useSelector(state => state.user.profile);
+	const profile = useSelector(state => state.user.profile);
+	const dispatch = useDispatch();
+
+	function hanndleSignOut() {
+		dispatch(signOut());
+	}
 
 	return (
 		<Container>
 			<Content>
 				<nav>
-					<img src={logo} alt="GoBarber" />
-					<Link to="/dasboard">Dashboard</Link>
+					<img src={logo} alt="Fastfeet" />
+					<NavLink to="/packages" activeClassName="active">
+						Encomendas
+					</NavLink>
+					<NavLink to="/deliverymen" activeClassName="active">
+						Entregadores
+					</NavLink>
+					<NavLink to="/recipients" activeClassName="active">
+						Destinatários
+					</NavLink>
+					<NavLink to="/delivery_problems" activeClassName="active">
+						Problemas
+					</NavLink>
 				</nav>
 				<aside>
 					<Profile>
-						<div>
-							<strong>Profile name</strong>
-							<Link to="/profile">Meu Perfil</Link>
-						</div>
-						<img
-							src="https://api.adorable.io/avatars/50/abott@adorable.png"
-							alt=""
-						/>
+						<strong>{profile.name}</strong>
+						<a href="/#" onClick={hanndleSignOut}>
+							sair do sistema
+						</a>
 					</Profile>
 				</aside>
 			</Content>

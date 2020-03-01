@@ -7,8 +7,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
 	height: 64px;
-	max-width: 900px;
-	margin: 0 auto;
+	max-width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -18,14 +17,21 @@ export const Content = styled.div`
 		align-items: center;
 
 		img {
+			width: 135px;
 			margin-right: 20px;
 			padding-right: 20px;
-			border-right: 1 solid #eee;
 		}
 
 		a {
+			padding: 3px;
+			margin: 0 3px;
+			text-transform: uppercase;
+			font-size: 15px;
 			font-weight: bold;
-			color: #7159c1;
+			color: #999999;
+			&.active {
+				color: #444444;
+			}
 		}
 	}
 
@@ -37,29 +43,22 @@ export const Content = styled.div`
 
 export const Profile = styled.div`
 	display: flex;
+	flex-direction: column;
 	margin-left: 20px;
 	padding-left: 20px;
 	border-left: 1px solid #eee;
 
-	div {
-		text-align: right;
-		margin-right: 10px;
-
-		strong {
-			display: block;
-			color: #333;
-		}
-
-		a {
-			display: block;
-			margin-top: 2px;
-			font-size: 12px;
-			color: #999;
-		}
+	strong {
+		display: block;
+		color: #333;
+		font-size: 14px;
 	}
-	img {
-		height: 32px;
-		width: 32px;
-		border-radius: 50%;
+
+	a {
+		display: block;
+		margin-top: 5px;
+		font-size: 14px;
+		color: #de3b3b;
+		text-align: right;
 	}
 `;

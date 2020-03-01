@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+	position: relative;
+	svg {
+		position: absolute;
+		top: 14px;
+		left: 14px;
+	}
+	input {
+		padding: ${props => (props.icon ? '12px 16px 12px 38px' : '12px 16px')};
+	}
+`;
+
 export const LabelStyled = styled.label`
 	display: block;
 	font-weight: bold;
@@ -11,7 +23,6 @@ export const LabelStyled = styled.label`
 export const InputStyled = styled.input`
 	width: 100%;
 	margin-bottom: 15px;
-	padding: 12px 16px;
 	border-radius: 4px;
 	border: 1px solid #ddd;
 	font-size: 15px;
