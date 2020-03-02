@@ -1,16 +1,25 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
-
-// import { Container } from './styles';
+import PropTypes from 'prop-types';
 
 export default function Modal({ trigger, children }) {
 	return (
 		<Popup
-			trigger={<button className="button"> {trigger} </button>}
+			trigger={<button type="button"> {trigger} </button>}
 			modal
 			closeOnDocumentClick
 		>
-			<div>TESTE</div>
+			{children}
 		</Popup>
 	);
 }
+
+Modal.defaultProps = {
+	trigger: null,
+	children: null,
+};
+
+Modal.propTypes = {
+	trigger: PropTypes.element,
+	children: PropTypes.element,
+};

@@ -16,7 +16,7 @@ import Table from '~/components/Table';
 import Status from '~/components/Status';
 import MoreAction from '~/components/MoreAction';
 import DeliveryMan from '~/components/DeliveryMan';
-import Modal from '~/components/Modal';
+import DeliveryModal from './DetailModal';
 
 import { MoreConainer } from './styles';
 
@@ -78,7 +78,7 @@ export default function Packages() {
 							<MoreAction>
 								<MoreConainer>
 									<div>
-										<Modal
+										<DeliveryModal
 											trigger={
 												<>
 													<MdRemoveRedEye color="#8E5BE8" size={15} />
