@@ -5,6 +5,8 @@ import {
 	MdDeleteForever,
 	MdRemoveRedEye,
 } from 'react-icons/md';
+import { toast } from 'react-toastify';
+
 import { Form } from '@unform/web';
 
 import api from '~/services/api';
@@ -23,17 +25,30 @@ import { MoreConainer } from './styles';
 export default function Packages() {
 	const [packages, setPackages] = useState([]);
 
-	useEffect(() => {
-		async function loadPackages() {
-			const response = await api.get('packages');
-			setPackages(response.data);
-		}
+	async function loadPackages() {
+		const response = await api.get('packages');
+		setPackages(response.data);
+	}
 
+	useEffect(() => {
 		loadPackages();
 	}, []);
 
-	function handleDelete() {
-		console.log('nothing');
+	async function handleDelete(id) {
+		const confirm = window.confirm('Você tem certeza que deseja deletar isso?');
+
+		if (!confirm) {
+			toast.error('Encomenda não apagada!');
+			return;
+		}
+
+		try {
+			await api.delete(`/packages/${id}`);
+			loadPackages();
+			toast.success('Encomenda apagada com sucesso!');
+		} catch (err) {
+			toast.error('Essa encomenda não pode ser deletada!');
+		}
 	}
 
 	return (
@@ -75,36 +90,41 @@ export default function Packages() {
 							<td>
 								<Status item={row} />
 							</td>
-							<MoreAction>
-								<MoreConainer>
-									<div>
-										<DeliveryModal
-											trigger={
-												<>
-													<MdRemoveRedEye color="#8E5BE8" size={15} />
-													<span>Visualizar</span>
-												</>
-											}
-											data={row}
-										/>
-									</div>
-									<div>
-										<button
-											onClick={() => history.push(`/deliveries/form/${row.id}`)}
-											type="button"
-										>
-											<MdEdit color="#4D85EE" size={15} />
-											<span>Editar</span>
-										</button>
-									</div>
-									<div>
-										<button onClick={handleDelete} type="button">
-											<MdDeleteForever color="#DE3B3B" size={15} />
-											<span>Excluir</span>
-										</button>
-									</div>
-								</MoreConainer>
-							</MoreAction>
+							<td>
+								<MoreAction>
+									<MoreConainer>
+										<div>
+											<DeliveryModal
+												trigger={
+													<>
+														<MdRemoveRedEye color="#8E5BE8" size={15} />
+														<span>Visualizar</span>
+													</>
+												}
+												data={row}
+											/>
+										</div>
+										<div>
+											<button
+												onClick={() => history.push(`/packages/${row.id}`)}
+												type="button"
+											>
+												<MdEdit color="#4D85EE" size={15} />
+												<span>Editar</span>
+											</button>
+										</div>
+										<div>
+											<button
+												onClick={() => handleDelete(row.id)}
+												type="button"
+											>
+												<MdDeleteForever color="#DE3B3B" size={15} />
+												<span>Excluir</span>
+											</button>
+										</div>
+									</MoreConainer>
+								</MoreAction>
+							</td>
 						</tr>
 					))}
 				</Table>
