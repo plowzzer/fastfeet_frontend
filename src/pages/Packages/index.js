@@ -4,6 +4,7 @@ import {
 	MdEdit,
 	MdDeleteForever,
 	MdRemoveRedEye,
+	MdAdd,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -20,7 +21,7 @@ import MoreAction from '~/components/MoreAction';
 import DeliveryMan from '~/components/DeliveryMan';
 import DeliveryModal from './DetailModal';
 
-import { MoreConainer } from './styles';
+import { HeaderStyled, MoreConainer } from './styles';
 
 export default function Packages() {
 	const [packages, setPackages] = useState([]);
@@ -51,12 +52,14 @@ export default function Packages() {
 		}
 	}
 
+	async function handleSearch(search) {}
+
 	return (
 		<>
 			<h1>Gerenciando encomendas</h1>
 
-			<div>
-				<Form>
+			<HeaderStyled>
+				<Form onSubmit={handleSearch}>
 					<Input
 						name="search"
 						placeholder="Buscar por encomendas"
@@ -64,8 +67,10 @@ export default function Packages() {
 					/>
 				</Form>
 
-				<Button>+ Cadastrar</Button>
-			</div>
+				<Button onClick={() => history.push('/packages/')}>
+					<MdAdd color="#fff" size={20} /> Cadastrar
+				</Button>
+			</HeaderStyled>
 			<div>
 				<Table
 					header={[

@@ -8,5 +8,7 @@ export const ButtonStyled = Styled.button`
 	font-size: 16px;
 	font-weight: bold;
 	border: none;
+	display: flex;
+	align-items: center;
 	${props => (props.block ? 'width:100%;' : 'width:auto')}
 `;

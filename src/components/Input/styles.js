@@ -15,9 +15,9 @@ export const Container = styled.div`
 export const LabelStyled = styled.label`
 	display: block;
 	font-weight: bold;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	text-align: left;
-	text-transform: uppercase;
+	color: #444;
 `;
 
 export const InputStyled = styled.input`
