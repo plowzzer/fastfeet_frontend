@@ -1,12 +1,8 @@
 import React from 'react';
 import { MdMoreHoriz } from 'react-icons/md';
 import Popup from 'reactjs-popup';
-import styled from 'styled-components';
 
-export const ButtonStyled = styled.button`
-	background: transparent;
-	border: none;
-`;
+import { Container, ButtonStyled } from './styles';
 
 export default function MoreAction({ children, ...rest }) {
 	return (
@@ -16,7 +12,7 @@ export default function MoreAction({ children, ...rest }) {
 					<MdMoreHoriz color="#C6C6C6" size={20} />
 				</ButtonStyled>
 			}
-			on="hover"
+			// on="hover"
 			position="bottom center"
 			contentStyle={{
 				width: '200px',
@@ -24,7 +20,7 @@ export default function MoreAction({ children, ...rest }) {
 			}}
 			{...rest}
 		>
-			{children}
+			<Container>{children}</Container>
 		</Popup>
 	);
 }

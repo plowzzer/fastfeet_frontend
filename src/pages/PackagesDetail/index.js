@@ -75,48 +75,47 @@ export default function PackagesDetail({ match }) {
 	}
 
 	async function handleSubmit(data, { reset }) {
-		console.log(data);
-		// formRef.current.setErrors({});
-		// try {
-		// 	const schema = Yup.object().shape({
-		// 		product: Yup.string().required('O nome do produto é obrigatório'),
-		// 		recipient_id: Yup.string().required('O destinatário é obrigatório'),
-		// 		deliveryman_id: Yup.string().required('O entregador é obrigatório'),
-		// 	});
+		formRef.current.setErrors({});
+		try {
+			const schema = Yup.object().shape({
+				product: Yup.string().required('O nome do produto é obrigatório'),
+				recipient_id: Yup.string().required('O destinatário é obrigatório'),
+				deliveryman_id: Yup.string().required('O entregador é obrigatório'),
+			});
 
-		// 	await schema.validate(data, {
-		// 		abortEarly: false,
-		// 	});
+			await schema.validate(data, {
+				abortEarly: false,
+			});
 
-		// 	if (id) {
-		// 		await api.put(`/deliveries/${id}`, {
-		// 			product: data.product,
-		// 			recipient_id: data.recipient_id,
-		// 			deliveryman_id: data.deliveryman_id,
-		// 		});
-		// 		history.push('/deliveries');
-		// 		toast.success('Encomenda editada com sucesso!');
-		// 	} else {
-		// 		await api.post('/deliveries', {
-		// 			product: data.product,
-		// 			recipient_id: data.recipient_id,
-		// 			deliveryman_id: data.deliveryman_id,
-		// 		});
-		// 		toast.success('Encomenda criada com sucesso!');
-		// 	}
+			if (id) {
+				await api.put(`/packages/${id}`, {
+					product: data.product,
+					recipient_id: data.recipient_id,
+					deliveryman_id: data.deliveryman_id,
+				});
+				history.push('/packages');
+				toast.success('Encomenda editada com sucesso!');
+			} else {
+				await api.post('/packages', {
+					product: data.product,
+					recipient_id: data.recipient_id,
+					deliveryman_id: data.deliveryman_id,
+				});
+				toast.success('Encomenda criada com sucesso!');
+			}
 
-		// 	reset();
-		// } catch (err) {
-		// 	if (err instanceof Yup.ValidationError) {
-		// 		const errorMessages = {};
+			reset();
+		} catch (err) {
+			if (err instanceof Yup.ValidationError) {
+				const errorMessages = {};
 
-		// 		err.inner.forEach(error => {
-		// 			errorMessages[error.path] = error.message;
-		// 		});
+				err.inner.forEach(error => {
+					errorMessages[error.path] = error.message;
+				});
 
-		// 		formRef.current.setErrors(errorMessages);
-		// 	}
-		// }
+				formRef.current.setErrors(errorMessages);
+			}
+		}
 	}
 
 	return (
@@ -124,7 +123,7 @@ export default function PackagesDetail({ match }) {
 			<HeaderStyled>
 				<h1>Cadastro de encomendas</h1>
 				<div>
-					<Button onClick={() => history.push('/packages/')}>
+					<Button tone="gray" onClick={() => history.push('/packages/')}>
 						<MdChevronLeft color="#fff" size={20} /> Voltar
 					</Button>
 					<Button onClick={() => formRef.current.submitForm()}>

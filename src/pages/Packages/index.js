@@ -18,10 +18,10 @@ import Button from '~/components/Button';
 import Table from '~/components/Table';
 import Status from '~/components/Status';
 import MoreAction from '~/components/MoreAction';
-import DeliveryMan from '~/components/DeliveryMan';
+import DeliveryManPicture from '~/components/DeliveryManPicture';
 import DeliveryModal from './DetailModal';
 
-import { HeaderStyled, MoreConainer } from './styles';
+import { HeaderStyled } from './styles';
 
 export default function Packages() {
 	const [packages, setPackages] = useState([]);
@@ -67,7 +67,7 @@ export default function Packages() {
 					/>
 				</Form>
 
-				<Button onClick={() => history.push('/packages/')}>
+				<Button onClick={() => history.push('/packages/new')}>
 					<MdAdd color="#fff" size={20} /> Cadastrar
 				</Button>
 			</HeaderStyled>
@@ -83,51 +83,46 @@ export default function Packages() {
 						'Ações',
 					]}
 				>
-					{packages.map(row => (
-						<tr>
-							<td>{row.id}</td>
-							<td>{row.product}</td>
+					{packages.map(pack => (
+						<tr key={pack.id.toString()}>
+							<td>{pack.id}</td>
+							<td>{pack.product}</td>
 							<td>
-								<DeliveryMan item={row.deliveryman} />
+								<DeliveryManPicture item={pack.deliveryman} />
 							</td>
-							<td>{row.recipient.city}</td>
-							<td>{row.recipient.state}</td>
+							<td>{pack.recipient.city}</td>
+							<td>{pack.recipient.state}</td>
 							<td>
-								<Status item={row} />
+								<Status item={pack} />
 							</td>
 							<td>
 								<MoreAction>
-									<MoreConainer>
-										<div>
-											<DeliveryModal
-												trigger={
-													<>
-														<MdRemoveRedEye color="#8E5BE8" size={15} />
-														<span>Visualizar</span>
-													</>
-												}
-												data={row}
-											/>
-										</div>
-										<div>
-											<button
-												onClick={() => history.push(`/packages/${row.id}`)}
-												type="button"
-											>
-												<MdEdit color="#4D85EE" size={15} />
-												<span>Editar</span>
-											</button>
-										</div>
-										<div>
-											<button
-												onClick={() => handleDelete(row.id)}
-												type="button"
-											>
-												<MdDeleteForever color="#DE3B3B" size={15} />
-												<span>Excluir</span>
-											</button>
-										</div>
-									</MoreConainer>
+									<div>
+										<DeliveryModal
+											trigger={
+												<>
+													<MdRemoveRedEye color="#8E5BE8" size={15} />
+													<span>Visualizar</span>
+												</>
+											}
+											data={pack}
+										/>
+									</div>
+									<div>
+										<button
+											onClick={() => history.push(`/packages/${pack.id}/edit`)}
+											type="button"
+										>
+											<MdEdit color="#4D85EE" size={15} />
+											<span>Editar</span>
+										</button>
+									</div>
+									<div>
+										<button onClick={() => handleDelete(pack.id)} type="button">
+											<MdDeleteForever color="#DE3B3B" size={15} />
+											<span>Excluir</span>
+										</button>
+									</div>
 								</MoreAction>
 							</td>
 						</tr>

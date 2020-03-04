@@ -6,7 +6,7 @@ export default function Table({ header, children }) {
 	return (
 		<TableStyled>
 			<thead>
-				<tr>
+				<tr key="header">
 					{header.map(item => (
 						<th>{item}</th>
 					))}
