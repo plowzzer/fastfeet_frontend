@@ -23,60 +23,66 @@ export default function DeliverymenDetail({ match }) {
 		async function loadInitialData(id) {
 			if (id) {
 				const response = await api.get(`/recipients/${id}`);
+				formRef.current.setData(response.data);
 			}
 		}
 		loadInitialData(id);
 	}, [id]);
 
 	async function handleSubmit(data, { reset }) {
-		console.log(data);
-		// formRef.current.setErrors({});
-		// try {
-		// 	const schema = Yup.object().shape({
-		// 		name: Yup.string().required('O nome é obrigatório'),
-		// 		email: Yup.string().required('O email é obrigatório'),
-		// 	});
+		formRef.current.setErrors({});
+		try {
+			const schema = Yup.object().shape({
+				name: Yup.string().required('O nome é obrigatório'),
+				street: Yup.string().required('A rua é obrigatória'),
+				number: Yup.string().required('O número é obrigatório'),
+				complement: Yup.string().notRequired(),
+				city: Yup.string().required('A cidade é obrigatória'),
+				state: Yup.string().required('O estado é obrigatório'),
+				cep: Yup.string().required('O CEP é obrigatório'),
+			});
 
-		// 	await schema.validate(data, {
-		// 		abortEarly: false,
-		// 	});
+			await schema.validate(data, {
+				abortEarly: false,
+			});
 
-		// 	const dataFile = new FormData();
+			if (id) {
+				await api.put(`/recipients/${id}`, {
+					name: data.name,
+					street: data.street,
+					number: data.number,
+					complement: data?.complement,
+					city: data.city,
+					state: data.state,
+					cep: data.cep,
+				});
+				history.push('/recipients');
+				toast.success('Destinatário editado com sucesso!');
+			} else {
+				await api.post('/recipients', {
+					name: data.name,
+					street: data.street,
+					number: data.number,
+					complement: data?.complement,
+					city: data.city,
+					state: data.state,
+					cep: data.cep,
+				});
+				toast.success('Destinatário criado com sucesso!');
+			}
 
-		// 	dataFile.append('file', data.avatar);
+			reset();
+		} catch (error) {
+			if (error instanceof Yup.ValidationError) {
+				const errorMessages = {};
 
-		// 	const responseFile = data.avatar
-		// 		? await api.post('files', dataFile)
-		// 		: null;
+				error.inner.forEach(err => {
+					errorMessages[err.path] = err.message;
+				});
 
-		// 	if (id) {
-		// 		await api.put(`/deliverymen/${id}`, {
-		// 			name: data.name,
-		// 			email: data.email,
-		// 			avatar_id: responseFile?.data?.id,
-		// 		});
-		// 		toast.success('Entregador editado com sucesso!');
-		// 	} else {
-		// 		await api.post('/deliverymen', {
-		// 			name: data.name,
-		// 			email: data.email,
-		// 			avatar_id: responseFile?.data?.id,
-		// 		});
-		// 		toast.success('Entregador criado com sucesso!');
-		// 	}
-
-		// 	reset();
-		// } catch (error) {
-		// 	if (error instanceof Yup.ValidationError) {
-		// 		const errorMessages = {};
-
-		// 		error.inner.forEach(err => {
-		// 			errorMessages[err.path] = err.message;
-		// 		});
-
-		// 		formRef.current.setErrors(errorMessages);
-		// 	}
-		// }
+				formRef.current.setErrors(errorMessages);
+			}
+		}
 	}
 
 	return (

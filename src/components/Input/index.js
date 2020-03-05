@@ -6,7 +6,6 @@ import { LabelStyled, Container, InputStyled, ErrorStyled } from './styles';
 
 export default function Input({ name, label, icon, ...rest }) {
 	const inputRef = useRef(null);
-
 	const { fieldName, defaultValue = '', registerField, error } = useField(name);
 
 	useEffect(() => {
@@ -37,11 +36,11 @@ export default function Input({ name, label, icon, ...rest }) {
 Input.defaultProps = {
 	name: '',
 	label: '',
-	icon: '',
+	icon: null,
 };
 
 Input.propTypes = {
 	name: PropTypes.string,
 	label: PropTypes.string,
-	icon: PropTypes.string,
+	icon: PropTypes.element,
 };
