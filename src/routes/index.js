@@ -9,6 +9,7 @@ import Deliverymen from '~/pages/Deliverymen';
 import DeliverymenDetail from '~/pages/DeliverymenDetail';
 import Recipients from '~/pages/Recipient';
 import RecipientDetail from '~/pages/RecipientDetail';
+import Problems from '~/pages/Problems';
 
 export default function Routes() {
 	return (
@@ -56,6 +57,9 @@ export default function Routes() {
 				component={RecipientDetail}
 				isPrivate
 			/>
+
+			{/* Problems Routes */}
+			<Route path="/problems" exact component={Problems} isPrivate />
 
 			<Route path="/" component={() => <h1>404</h1>} />
 		</Switch>
