@@ -7,6 +7,8 @@ import Packages from '~/pages/Packages';
 import PackagesDetail from '~/pages/PackagesDetail';
 import Deliverymen from '~/pages/Deliverymen';
 import DeliverymenDetail from '~/pages/DeliverymenDetail';
+import Recipients from '~/pages/Recipient';
+import RecipientDetail from '~/pages/RecipientDetail';
 
 export default function Routes() {
 	return (
@@ -36,6 +38,22 @@ export default function Routes() {
 				path="/deliverymen/new"
 				exact
 				component={DeliverymenDetail}
+				isPrivate
+			/>
+
+			{/* Recipients Routes */}
+			<Route path="/recipients" exact component={Recipients} isPrivate />
+			<Route
+				path="/recipients/:id/edit"
+				exact
+				component={RecipientDetail}
+				isPrivate
+			/>
+
+			<Route
+				path="/recipients/new"
+				exact
+				component={RecipientDetail}
 				isPrivate
 			/>
 
