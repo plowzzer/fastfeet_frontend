@@ -13,6 +13,8 @@ import { Form } from '@unform/web';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import LoaderSpinner from '~/components/LoaderSpinner';
+import InternHeader from '~/components/InternHeader';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 import Table from '~/components/Table';
@@ -21,17 +23,18 @@ import MoreAction from '~/components/MoreAction';
 import DeliveryManPicture from '~/components/DeliveryManPicture';
 import DeliveryModal from './DetailModal';
 
-import { HeaderStyled } from './styles';
-
 export default function Packages() {
 	const [packages, setPackages] = useState([]);
+	const [loader, setLoader] = useState(true);
 
 	async function loadPackages() {
 		const response = await api.get('packages');
 		setPackages(response.data);
+		setLoader(false);
 	}
 
 	useEffect(() => {
+		setLoader(true);
 		loadPackages();
 	}, []);
 
@@ -58,7 +61,7 @@ export default function Packages() {
 		<>
 			<h1>Gerenciando encomendas</h1>
 
-			<HeaderStyled>
+			<InternHeader>
 				<Form onSubmit={handleSearch}>
 					<Input
 						name="search"
@@ -70,7 +73,7 @@ export default function Packages() {
 				<Button onClick={() => history.push('/packages/new')}>
 					<MdAdd color="#fff" size={20} /> Cadastrar
 				</Button>
-			</HeaderStyled>
+			</InternHeader>
 			<div>
 				<Table
 					header={[
@@ -128,6 +131,7 @@ export default function Packages() {
 						</tr>
 					))}
 				</Table>
+				{loader && <LoaderSpinner />}
 			</div>
 		</>
 	);

@@ -7,21 +7,22 @@ import { Form } from '@unform/web';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import LoaderSpinner from '~/components/LoaderSpinner';
+import InternHeader from '~/components/InternHeader';
 import Input from '~/components/Input';
 import Button from '~/components/Button';
 import Table from '~/components/Table';
 import DeliveryManPicture from '~/components/DeliveryManPicture';
 import MoreAction from '~/components/MoreAction';
 
-import { HeaderStyled } from './styles';
-
 export default function Deliverymen() {
 	const [deliverymen, setDeliveryman] = useState([]);
+	const [loader, setLoader] = useState(true);
 
 	async function loadDeliverymen() {
 		const response = await api.get('deliverymen');
 		setDeliveryman(response.data);
-		console.log(response.data);
+		setLoader(false);
 	}
 
 	useEffect(() => {
@@ -51,7 +52,7 @@ export default function Deliverymen() {
 		<>
 			<h1>Gerenciando entregadores</h1>
 
-			<HeaderStyled>
+			<InternHeader>
 				<Form onSubmit={handleSearch}>
 					<Input
 						name="search"
@@ -63,7 +64,7 @@ export default function Deliverymen() {
 				<Button onClick={() => history.push('/deliverymen/new')}>
 					<MdAdd color="#fff" size={20} /> Cadastrar
 				</Button>
-			</HeaderStyled>
+			</InternHeader>
 			<div>
 				<Table header={['ID', 'Foto', 'Nome', 'Email', 'Ações']}>
 					{deliverymen.map(deliveryman => (
@@ -79,7 +80,7 @@ export default function Deliverymen() {
 									<div>
 										<button
 											onClick={() =>
-												history.push(`/packages/${deliveryman.id}/edit`)
+												history.push(`/deliverymen/${deliveryman.id}/edit`)
 											}
 											type="button"
 										>
@@ -101,6 +102,7 @@ export default function Deliverymen() {
 						</tr>
 					))}
 				</Table>
+				{loader && <LoaderSpinner />}
 			</div>
 		</>
 	);

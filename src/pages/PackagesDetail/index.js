@@ -8,11 +8,12 @@ import { Form } from '@unform/web';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import InternHeader from '~/components/InternHeader';
 import Button from '~/components/Button';
 import Input from '~/components/Input';
 import AsyncSelectInput from '~/components/AsyncSelectInput';
 
-import { HeaderStyled, CardStyled } from './styles';
+import { CardStyled } from './styles';
 
 export default function PackagesDetail({ match }) {
 	const { id } = match.params;
@@ -37,7 +38,7 @@ export default function PackagesDetail({ match }) {
 		loadInitialData(id);
 	}, [id]);
 
-	const customStylesSelectInput = {
+	const selectStyled = {
 		control: provided => ({
 			...provided,
 			height: 45,
@@ -120,17 +121,17 @@ export default function PackagesDetail({ match }) {
 
 	return (
 		<>
-			<HeaderStyled>
+			<InternHeader>
 				<h1>Cadastro de encomendas</h1>
-				<div>
+				<nav>
 					<Button tone="gray" onClick={() => history.push('/packages/')}>
 						<MdChevronLeft color="#fff" size={20} /> Voltar
 					</Button>
 					<Button onClick={() => formRef.current.submitForm()}>
 						<MdCheck color="#fff" size={20} /> Salvar
 					</Button>
-				</div>
-			</HeaderStyled>
+				</nav>
+			</InternHeader>
 
 			<CardStyled>
 				<Form ref={formRef} onSubmit={handleSubmit}>
@@ -143,7 +144,7 @@ export default function PackagesDetail({ match }) {
 							noOptionsMessage={() => 'Nenhum destinatário encontrado'}
 							defaultOptions={loadRecipientOptions}
 							loadOptions={loadRecipientOptions}
-							styles={customStylesSelectInput}
+							styles={selectStyled}
 						/>
 						<AsyncSelectInput
 							type="text"
@@ -152,7 +153,7 @@ export default function PackagesDetail({ match }) {
 							placeholder="Entregadores"
 							noOptionsMessage={() => 'Nenhum entregador encontrado'}
 							loadOptions={loadDeliverymenOptrios}
-							styles={customStylesSelectInput}
+							styles={selectStyled}
 						/>
 					</section>
 					<section>
