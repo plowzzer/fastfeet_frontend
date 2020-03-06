@@ -5,6 +5,8 @@ import {
 	MdDeleteForever,
 	MdRemoveRedEye,
 	MdAdd,
+	MdChevronLeft,
+	MdChevronRight,
 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
@@ -22,13 +24,19 @@ import Status from '~/components/Status';
 import MoreAction from '~/components/MoreAction';
 import DeliveryManPicture from '~/components/DeliveryManPicture';
 import DeliveryModal from './DetailModal';
+import InternFooter from '~/components/InternFooter';
 
 export default function Packages() {
 	const [packages, setPackages] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const [page, setPage] = useState(1);
 
 	async function loadPackages() {
-		const response = await api.get('packages');
+		const response = await api.get('packages', {
+			params: {
+				page,
+			},
+		});
 		setPackages(response.data);
 		setLoader(false);
 	}
@@ -36,7 +44,7 @@ export default function Packages() {
 	useEffect(() => {
 		setLoader(true);
 		loadPackages();
-	}, []);
+	}, [page]);
 
 	async function handleDelete(id) {
 		const confirm = window.confirm('Você tem certeza que deseja deletar isso?');
@@ -55,7 +63,17 @@ export default function Packages() {
 		}
 	}
 
-	async function handleSearch(search) {}
+	async function handleSearch({ search }) {
+		setPage(1);
+		const response = await api.get('/packages', {
+			params: {
+				q: search,
+				page,
+			},
+		});
+
+		setPackages(response.data);
+	}
 
 	return (
 		<>
@@ -132,6 +150,14 @@ export default function Packages() {
 					))}
 				</Table>
 				{loader && <LoaderSpinner />}
+				<InternFooter>
+					<Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+						<MdChevronLeft color="#fff" size={20} />
+					</Button>
+					<Button onClick={() => setPage(page + 1)}>
+						<MdChevronRight color="#fff" size={20} />
+					</Button>
+				</InternFooter>
 			</div>
 		</>
 	);

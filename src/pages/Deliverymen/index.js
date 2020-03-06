@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { MdSearch, MdAdd, MdEdit, MdDeleteForever } from 'react-icons/md';
+import {
+	MdSearch,
+	MdAdd,
+	MdEdit,
+	MdDeleteForever,
+	MdChevronLeft,
+	MdChevronRight,
+} from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import { Form } from '@unform/web';
@@ -14,20 +21,26 @@ import Button from '~/components/Button';
 import Table from '~/components/Table';
 import DeliveryManPicture from '~/components/DeliveryManPicture';
 import MoreAction from '~/components/MoreAction';
+import InternFooter from '~/components/InternFooter';
 
 export default function Deliverymen() {
 	const [deliverymen, setDeliveryman] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const [page, setPage] = useState(1);
 
 	async function loadDeliverymen() {
-		const response = await api.get('deliverymen');
+		const response = await api.get('deliverymen', {
+			params: {
+				page,
+			},
+		});
 		setDeliveryman(response.data);
 		setLoader(false);
 	}
 
 	useEffect(() => {
 		loadDeliverymen();
-	}, []);
+	}, [page]);
 
 	async function handleDelete(id) {
 		const confirm = window.confirm('Você tem certeza que deseja deletar isso?');
@@ -46,7 +59,17 @@ export default function Deliverymen() {
 		}
 	}
 
-	async function handleSearch(search) {}
+	async function handleSearch({ search }) {
+		setPage(1);
+		const response = await api.get('/deliverymen', {
+			params: {
+				q: search,
+				page,
+			},
+		});
+
+		setDeliveryman(response.data);
+	}
 
 	return (
 		<>
@@ -103,6 +126,14 @@ export default function Deliverymen() {
 					))}
 				</Table>
 				{loader && <LoaderSpinner />}
+				<InternFooter>
+					<Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+						<MdChevronLeft color="#fff" size={20} />
+					</Button>
+					<Button onClick={() => setPage(page + 1)}>
+						<MdChevronRight color="#fff" size={20} />
+					</Button>
+				</InternFooter>
 			</div>
 		</>
 	);

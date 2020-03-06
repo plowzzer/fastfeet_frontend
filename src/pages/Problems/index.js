@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { MdRemoveRedEye, MdDeleteForever } from 'react-icons/md';
+import {
+	MdRemoveRedEye,
+	MdDeleteForever,
+	MdChevronLeft,
+	MdChevronRight,
+} from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
 import LoaderSpinner from '~/components/LoaderSpinner';
+import Button from '~/components/Button';
 import Table from '~/components/Table';
 import MoreAction from '~/components/MoreAction';
 import DeliveryModal from './DetailModal';
+import InternFooter from '~/components/InternFooter';
 
 export default function Problems() {
 	const [problems, setProblems] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const [page, setPage] = useState(1);
 
 	async function loadRecipients() {
-		const response = await api.get('problems');
+		const response = await api.get('problems', {
+			params: {
+				page,
+			},
+		});
 		setProblems(response.data);
 		setLoader(false);
 	}
 
 	useEffect(() => {
 		loadRecipients();
-	}, []);
+	}, [page]);
 
 	async function handleDelete(id) {
 		const confirm = window.confirm('Você tem certeza que deseja deletar isso?');
@@ -77,6 +89,14 @@ export default function Problems() {
 					))}
 				</Table>
 				{loader && <LoaderSpinner />}
+				<InternFooter>
+					<Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+						<MdChevronLeft color="#fff" size={20} />
+					</Button>
+					<Button onClick={() => setPage(page + 1)}>
+						<MdChevronRight color="#fff" size={20} />
+					</Button>
+				</InternFooter>
 			</div>
 		</>
 	);

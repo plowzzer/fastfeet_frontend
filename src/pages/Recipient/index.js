@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { MdSearch, MdAdd, MdEdit, MdDeleteForever } from 'react-icons/md';
+import {
+	MdSearch,
+	MdAdd,
+	MdEdit,
+	MdDeleteForever,
+	MdChevronLeft,
+	MdChevronRight,
+} from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import { Form } from '@unform/web';
@@ -13,20 +20,26 @@ import Input from '~/components/Input';
 import Button from '~/components/Button';
 import Table from '~/components/Table';
 import MoreAction from '~/components/MoreAction';
+import InternFooter from '~/components/InternFooter';
 
 export default function Recipient() {
 	const [recipient, setRecipient] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const [page, setPage] = useState(1);
 
 	async function loadRecipients() {
-		const response = await api.get('recipients');
+		const response = await api.get('recipients', {
+			params: {
+				page,
+			},
+		});
 		setRecipient(response.data);
 		setLoader(false);
 	}
 
 	useEffect(() => {
 		loadRecipients();
-	}, []);
+	}, [page]);
 
 	async function handleDelete(id) {
 		const confirm = window.confirm('Você tem certeza que deseja deletar isso?');
@@ -45,7 +58,17 @@ export default function Recipient() {
 		}
 	}
 
-	async function handleSearch(search) {}
+	async function handleSearch({ search }) {
+		setPage(1);
+		const response = await api.get('/recipients', {
+			params: {
+				q: search,
+				page,
+			},
+		});
+
+		setRecipient(response.data);
+	}
 
 	return (
 		<>
@@ -103,6 +126,14 @@ export default function Recipient() {
 					))}
 				</Table>
 				{loader && <LoaderSpinner />}
+				<InternFooter>
+					<Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+						<MdChevronLeft color="#fff" size={20} />
+					</Button>
+					<Button onClick={() => setPage(page + 1)}>
+						<MdChevronRight color="#fff" size={20} />
+					</Button>
+				</InternFooter>
 			</div>
 		</>
 	);

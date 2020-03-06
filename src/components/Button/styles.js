@@ -11,7 +11,8 @@ function statusColor(tone) {
 }
 
 export const ButtonStyled = Styled.button`
-	background-color: ${props => statusColor(props.tone)};
+	background-color: ${props =>
+		props.disabled ? statusColor('gray') : statusColor(props.tone)};
 	border-radius: 4px;
 	padding: 12px 24px;
 	color: #FFF;
@@ -20,5 +21,7 @@ export const ButtonStyled = Styled.button`
 	border: none;
 	display: flex;
 	align-items: center;
+	cursor: ${props => (props.disabled ? 'auto' : 'pointer')};
 	${props => (props.block ? 'width:100%;' : 'width:auto')}
+
 `;
