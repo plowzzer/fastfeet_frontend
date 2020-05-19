@@ -16,7 +16,7 @@ export default function Header() {
 	}
 
 	return (
-		<Container>
+		<Container data-test="header">
 			<Content>
 				<nav>
 					<img src={logo} alt="Fastfeet" />

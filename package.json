@@ -40,7 +40,9 @@
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
 		"test": "react-app-rewired test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"e2e:open": "cypress open",
+		"e2e:run": "cypress run"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -61,6 +63,7 @@
 		"babel-eslint": "10.0.3",
 		"babel-plugin-root-import": "^6.4.1",
 		"customize-cra": "^0.9.1",
+		"cypress": "^4.5.0",
 		"eslint": "^6.8.0",
 		"eslint-config-airbnb": "^18.0.1",
 		"eslint-config-prettier": "^6.10.0",
