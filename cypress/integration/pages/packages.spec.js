@@ -121,5 +121,52 @@ context('Testes de Encomendas', () => {
 				'table > tbody > tr:nth-child(1) > td:nth-child(7) > .popup-content'
 			).contains('Excluir');
 		});
+
+		it('Adicionar novo cadastro de encomenda', () => {
+			cy.route(
+				'GET',
+				'**/recipients?q=F',
+				'fixture:recipients/recipients?q=F.json'
+			).as('recipients=F');
+			cy.route(
+				'GET',
+				'**/deliverymen?q=M',
+				'fixture:deliverymen/deliverymen?q=M.json'
+			).as('deliverymen=M');
+			cy.visit('http://localhost:3000/packages');
+			cy.wait(['@getPage=1']);
+
+			cy.get('[data-test=sub-header] button')
+				.contains('Cadastrar')
+				.click();
+
+			cy.url().should('include', '/packages/new');
+
+			cy.get('h1').contains('Cadastro de encomendas');
+			cy.get('[data-test=sub-header] > nav > button:nth-child(1)').contains(
+				'Voltar'
+			);
+			cy.get('[data-test=sub-header] > nav > button:nth-child(2)').contains(
+				'Salvar'
+			);
+
+			cy.get('form > section:nth-child(1) > div:nth-child(1) > div')
+				.click()
+				.type('F');
+			cy.wait(['@recipients=F']);
+			cy.get('#react-select-2-option-0')
+				.contains('Fabiana Medeiros')
+				.click();
+
+			cy.get('form > section:nth-child(1) > div:nth-child(2) > div')
+				.click()
+				.type('M');
+			cy.wait(['@deliverymen=M']);
+			cy.get('#react-select-3-option-0')
+				.contains('Marcelo Alcantara')
+				.click();
+
+			cy.get('input#product').type('Product test');
+		});
 	});
 });

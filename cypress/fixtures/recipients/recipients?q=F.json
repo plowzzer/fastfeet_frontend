@@ -1,0 +1,14 @@
+[
+	{
+		"id": 1,
+		"name": "Fabiana Medeiros",
+		"street": "Rua Dona Iria Alves",
+		"number": "870",
+		"complement": "Torre oeste - Apartamento 602",
+		"state": "SP",
+		"city": "Bonfim Paulista",
+		"cep": "14110-000",
+		"createdAt": "2020-02-28T00:46:28.885Z",
+		"updatedAt": "2020-02-28T00:46:28.885Z"
+	}
+]
