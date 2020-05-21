@@ -19,6 +19,14 @@ Cypress.Commands.add(
 		cy.get('form button').click();
 	}
 );
+
+Cypress.Commands.add('loginSTUB', () => {
+	const user = '{"auth":"{\\"token\\":\\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTg5OTI1NzE3LCJleHAiOjE1OTA1MzA1MTd9.reTHZJB1eI_MYJJubAS7ALRRnkFikW9wVCPOfsGlxyw\\",\\"signed\\":true,\\"loading\\":false}","user":"{\\"profile\\":{\\"id\\":1,\\"name\\":\\"Distribuidora Fastfeet\\",\\"email\\":\\"admin@fastfeet.com\\"}}","_persist":"{\\"version\\":-1,\\"rehydrated\\":true}"}'
+	localStorage.setItem(
+		'persist:fastfeet',
+		user
+	);
+});
 //
 //
 // -- This is a child command --

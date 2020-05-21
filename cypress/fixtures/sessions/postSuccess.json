@@ -1,0 +1,8 @@
+{
+	"user": {
+		"id": 1,
+		"name": "Distribuidora Fastfeet",
+		"email": "admin@fastfeet.com"
+	},
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTg5OTI1MDUzLCJleHAiOjE1OTA1Mjk4NTN9.TMJUh_XhzGqjKQcGxx-_BeK-dK85dZEBHKzOzWGA444"
+}
