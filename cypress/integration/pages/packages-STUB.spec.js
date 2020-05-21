@@ -1,12 +1,22 @@
 context('Testes de Encomendas', () => {
 	beforeEach(() => {
-		cy.login();
+		cy.loginSTUB();
+		cy.server();
+		cy.route('GET', '**/packages?page=1', 'fixture:packages/getPage=1.json').as(
+			'getPage=1'
+		);
 	});
 
 	describe('Render basico da tela de encomendas', () => {
+		it('Abrir por padrão após login, a tela de encomendas', () => {
+			cy.visit('http://localhost:3000/packages');
+			cy.url().should('include', '/packages');
+			cy.wait(['@getPage=1']);
+		});
+
 		it('Render basico do header e das informações de usuário logado', () => {
-			// cy.visit('http://localhost:3000/packages');
-			cy.login();
+			cy.visit('http://localhost:3000/packages');
+			cy.wait(['@getPage=1']);
 			cy.get('[data-test=header] nav')
 				.children()
 				.should('have.length', 5);
@@ -47,6 +57,7 @@ context('Testes de Encomendas', () => {
 
 		it('Verificar Header da página interna', () => {
 			cy.visit('http://localhost:3000/packages');
+			cy.wait(['@getPage=1']);
 			cy.get('h1').contains('Gerenciando encomendas');
 
 			cy.get('[data-test=sub-header] input')
@@ -61,6 +72,7 @@ context('Testes de Encomendas', () => {
 
 		it('Verificar Table e conteúdo da tabela', () => {
 			cy.visit('http://localhost:3000/packages');
+			cy.wait(['@getPage=1']);
 
 			cy.get('table > thead > tr')
 				.children()
@@ -111,7 +123,22 @@ context('Testes de Encomendas', () => {
 		});
 
 		it('Adicionar novo cadastro de encomenda', () => {
+			cy.route(
+				'GET',
+				'**/recipients?q=F',
+				'fixture:recipients/recipients?q=F.json'
+			).as('recipients=F');
+			cy.route(
+				'GET',
+				'**/deliverymen?q=M',
+				'fixture:deliverymen/deliverymen?q=M.json'
+			).as('deliverymen=M');
+			cy.route('POST', '**/packages', 'fixture:packages/newPost.json').as(
+				'newPost'
+			);
 			cy.visit('http://localhost:3000/packages');
+			cy.wait(['@getPage=1']);
+
 			cy.get('[data-test=sub-header] button')
 				.contains('Cadastrar')
 				.click();
@@ -129,7 +156,7 @@ context('Testes de Encomendas', () => {
 			cy.get('form > section:nth-child(1) > div:nth-child(1) > div')
 				.click()
 				.type('F');
-			// cy.wait(['@recipients=F']);
+			cy.wait(['@recipients=F']);
 			cy.get('#react-select-2-option-0')
 				.contains('Fabiana Medeiros')
 				.click();
@@ -137,7 +164,7 @@ context('Testes de Encomendas', () => {
 			cy.get('form > section:nth-child(1) > div:nth-child(2) > div')
 				.click()
 				.type('M');
-			// cy.wait(['@deliverymen=M']);
+			cy.wait(['@deliverymen=M']);
 			cy.get('#react-select-3-option-0')
 				.contains('Marcelo Alcantara')
 				.click();
@@ -147,6 +174,7 @@ context('Testes de Encomendas', () => {
 			cy.get('[data-test=sub-header] > nav > button:nth-child(2)')
 				.contains('Salvar')
 				.click();
+			cy.wait(['@newPost']);
 
 			cy.get(
 				'.Toastify .Toastify__toast--success > .Toastify__toast-body'

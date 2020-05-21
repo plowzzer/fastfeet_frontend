@@ -1,0 +1,13 @@
+{
+	"status": "AWAITING",
+	"id": 22,
+	"product": "teste",
+	"recipient_id": 1,
+	"deliveryman_id": 1,
+	"updatedAt": "2020-05-21T18:45:17.992Z",
+	"createdAt": "2020-05-21T18:45:17.992Z",
+	"start_date": null,
+	"end_date": null,
+	"canceled_at": null,
+	"signature_id": null
+}

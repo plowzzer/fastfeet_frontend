@@ -49,12 +49,12 @@ context('Autenticação', () => {
 
 		it('Tentar logar com um usuário não existente', () => {
 			cy.server({ method: 'POST', status: 401 });
-			cy.route('POST', '**/sessions', 'fixture:sessions/postNotFound.json').as(
+			cy.route('POST', '**/sessions', { error: 'User not found' }).as(
 				'postSessionsNotFound'
 			);
 
 			cy.visit('http://localhost:3000/');
-			cy.get("#email[type='email'").type('teste@teste.com');
+			cy.get("#email[type='email']").type('teste@teste.com');
 			cy.get("#password[type='password']").type('123456');
 			cy.get('form button').click();
 
@@ -65,20 +65,20 @@ context('Autenticação', () => {
 			).contains('Falha na autenticação, verifique seus dados');
 		});
 
-		// it('Verificar email e senha corretos e logar na aplicação', () => {
-		// 	cy.server();
-		// 	cy.route('POST', '**/sessions', 'fixture:sessions/postSuccess.json').as(
-		// 		'postSessions'
-		// 	);
-		// 	cy.route(
-		// 		'GET',
-		// 		'**/packages?page=1',
-		// 		'fixture:packages/getPage=1.json'
-		// 	).as('getPage=1');
-		// 	cy.login('admin@fastfeet.com', '123456');
-		// 	cy.wait(['@postSessions', '@getPage=1']);
+		it('Verificar email e senha corretos e logar na aplicação', () => {
+			cy.server();
+			cy.route('POST', '**/sessions', 'fixture:sessions/postSuccess.json').as(
+				'postSessions'
+			);
+			cy.route(
+				'GET',
+				'**/packages?page=1',
+				'fixture:packages/getPage=1.json'
+			).as('getPage=1');
+			cy.login('admin@fastfeet.com', '123456');
+			cy.wait(['@postSessions', '@getPage=1']);
 
-		// 	cy.url().should('include', '/packages');
-		// });
+			cy.url().should('include', '/packages');
+		});
 	});
 });
