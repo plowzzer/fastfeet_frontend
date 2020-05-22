@@ -1,0 +1,13 @@
+[
+	{
+		"id": 1,
+		"name": "Marcelo Alcantara",
+		"email": "delivery@gogogo.com",
+		"avatar": {
+			"url": "http://localhost:3333/files/b39cc79837123c1397ae64e191b8f9d5.jpg",
+			"id": 1,
+			"name": "profile.jpg",
+			"path": "b39cc79837123c1397ae64e191b8f9d5.jpg"
+		}
+	}
+]

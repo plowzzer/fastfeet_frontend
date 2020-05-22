@@ -34,7 +34,7 @@ export default function Dashboard() {
 			<Form schema={schema} onSubmit={handleSubmit}>
 				<Input
 					name="email"
-					label="email"
+					label="Email"
 					type="email"
 					placeholder="Seu e-mail"
 				/>

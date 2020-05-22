@@ -107,7 +107,7 @@ export default function Packages() {
 					{packages.map(pack => (
 						<tr key={pack.id.toString()}>
 							<td>{pack.id}</td>
-							<td>{pack.product}</td>
+							<td>{pack.recipient.name}</td>
 							<td>
 								<DeliveryManPicture item={pack.deliveryman} />
 							</td>

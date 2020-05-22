@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export const HeaderStyled = styled.header`
@@ -14,11 +15,22 @@ export const HeaderStyled = styled.header`
 			margin-left: 15px;
 		}
 	}
+	form {
+		min-width: 250px;
+	}
 	input {
 		margin-bottom: 0px;
 	}
 `;
 
 export default function InternHeader({ children }) {
-	return <HeaderStyled>{children}</HeaderStyled>;
+	return <HeaderStyled data-test="sub-header">{children}</HeaderStyled>;
 }
+
+InternHeader.defaultProps = {
+	children: '',
+};
+
+InternHeader.propTypes = {
+	children: PropTypes.string,
+};
